@@ -1,0 +1,29 @@
+import matplotlib.pyplot as plt
+import seaborn as sns
+#Sketching the plots by using Matplotlib & Seaborn:
+def plot_of_distributions(eucl, pearson, save_path='distribution_plot.png'):
+
+    #Configurations of the plots:
+    fig, axes= plt.subplots(1, 2, figsize=(12,4.5))
+
+    #Plot for Euclidean distance distribution:
+    sns.histplot(eucl, kde= True, ax = axes[0], color= 'red', bins=20)
+    axes[0].set_title('Euclidean distance distribution')
+    axes[0].set_xlabel('Distance')
+    axes[0].set_ylabel('Frequency')
+
+    #Plot for Pearson correlation distribution
+    sns.histplot(pearson, kde= True, ax= axes[1], color= 'blue', bins=20)
+    axes[1].set_title('Pearson correlation distribution')
+    axes[1].set_xlabel('Correlation coefficient')
+    axes[1].set_ylabel('Frequency')
+
+    plt.tight_layout()
+    plt.savefig(save_path, dpi=300)
+    plt.show()
+
+plot_of_distributions(eucl, pearson)
+    
+
+
+    
