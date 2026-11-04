@@ -1,0 +1,261 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "d11e5fc9-d67b-4e5a-b7eb-496659443660",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from scipy.io import loadmat\n",
+    "import numpy as np"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "3c80a2f8-baf7-4c83-9630-f42e3108a4fb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "dict_keys(['__header__', '__version__', '__globals__', 'movies', 'users_movies', 'index_small', 'users_movies_sort', 'trial_user'])\n"
+     ]
+    }
+   ],
+   "source": [
+    "data = loadmat('users_movies.mat')\n",
+    "\n",
+    "print(data.keys())"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "c9e92710-84c1-4f59-84cd-9e8b4f48bfaf",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(1, 20)\n",
+      "[[1097  260 1196 1210  480 2028  589 2571 1270  593 2628 1198  608 2762\n",
+      "   110 2396 1197  527  318 1265]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "index_small = data['index_small']\n",
+    "\n",
+    "print(index_small.shape)\n",
+    "print(index_small[:10])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "d630096d-02d5-497e-8b44-e9d9a00b5829",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[[1096  259 1195 1209  479 2027  588 2570 1269  592 2627 1197  607 2761\n",
+      "   109 2395 1196  526  317 1264]]\n"
+     ]
+    }
+   ],
+   "source": [
+    "index_small_python = index_small - 1\n",
+    "\n",
+    "print(index_small_python)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "c99aa93d-d1f1-4a4b-a276-5866efaece5e",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(3952, 1)\n"
+     ]
+    }
+   ],
+   "source": [
+    "movies = data['movies']\n",
+    "\n",
+    "print(movies.shape)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "a8f42470-c0b6-49ad-89e9-c3fa05cac3c6",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[array(['Toy Story (1995)'], dtype='<U16')]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(movies[0])\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "1d8b864f-e656-4bdc-bdae-f8d06ba79903",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['Toy Story (1995)']\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(movies[0][0])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "0a6f4786-ae90-4578-a791-9195774782a0",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Top 20 movies:\n",
+      "\n",
+      "1. Toy Story (1995)\n",
+      "2. Jumanji (1995)\n",
+      "3. Grumpier Old Men (1995)\n",
+      "4. Waiting to Exhale (1995)\n",
+      "5. Father of the Bride Part II (1995)\n",
+      "6. Heat (1995)\n",
+      "7. Sabrina (1995)\n",
+      "8. Tom and Huck (1995)\n",
+      "9. Sudden Death (1995)\n",
+      "10. GoldenEye (1995)\n",
+      "11. American President, The (1995)\n",
+      "12. Dracula\n",
+      "13. Balto (1995)\n",
+      "14. Nixon (1995)\n",
+      "15. Cutthroat Island (1995)\n",
+      "16. Casino (1995)\n",
+      "17. Sense and Sensibility (1995)\n",
+      "18. Four Rooms (1995)\n",
+      "19. Ace Ventura\n",
+      "20. Money Train (1995)\n"
+     ]
+    }
+   ],
+   "source": [
+    "def show_top20_movies(movies):\n",
+    "    print(\"Top 20 movies:\\n\")\n",
+    "\n",
+    "    for i in range(20):\n",
+    "        print(f\"{i+1}. {movies[i][0][0]}\")\n",
+    "\n",
+    "show_top20_movies(movies)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "83dd607e-93fa-4c69-b419-4940f6f4fc13",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "(6040, 20)\n"
+     ]
+    }
+   ],
+   "source": [
+    "users_movies_sort = data['users_movies_sort']\n",
+    "\n",
+    "print(users_movies_sort.shape)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "id": "ab2eab52-7e99-4ce8-aec4-a93d4c63079d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ratings = users_movies_sort[\n",
+    "    np.all(users_movies_sort != 0, axis=1)\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 13,
+   "id": "56db4c26-5b8c-41ac-9ecc-c553e729e526",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Kích thước ban đầu: (6040, 20)\n",
+      "Kích thước sau khi lọc: (125, 20)\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(\"Kích thước ban đầu:\", users_movies_sort.shape)\n",
+    "print(\"Kích thước sau khi lọc:\", ratings.shape)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a594570f-0d16-429c-b266-0af76fbe5abb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.6"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
