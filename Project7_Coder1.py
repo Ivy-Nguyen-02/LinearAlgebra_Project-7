@@ -15,7 +15,7 @@ print("\nIndex sau khi chuyển sang Python:")
 print(index_small_python)
 
 # Task 3: Listing 20 most popular movies:
-movies = data['movies']
+movies = data['movies'].flatten()
 
 def show_top20_movies(movies, index_small_python):
     print("TOP 20 MOST POPULAR MOVIES:\n")
