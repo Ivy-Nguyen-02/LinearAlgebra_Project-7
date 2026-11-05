@@ -29,7 +29,7 @@ show_top20_movies(movies, index_small_python)
 users_movies_sort = data['users_movies_sort']
 
 def create_ratings_matrix(users_movies_sort):
-    ratings = users_movie_sort
+    ratings = users_movies_sort
     valid_mask = np.all(users_movies_sort !=0, axis=1)
     return ratings, valid_mask
 ratings, valid_mask = create_ratings_matrix(users_movies_sort)
