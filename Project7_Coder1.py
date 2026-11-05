@@ -21,7 +21,7 @@ def show_top20_movies(movies, index_small_python):
     print("TOP 20 MOST POPULAR MOVIES:\n")
    
     for i, idx in enumerate(index_small_python):
-    title = movies[idx][0] if isinstance(movies[idx], np.ndarray) else str(movies[idx])
+        title = movies[idx][0] if isinstance(movies[idx], np.ndarray) else str(movies[idx])
         print(f"{i+1:2d}. {title}")
 
 show_top20_movies(movies, index_small_python)
