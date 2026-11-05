@@ -25,7 +25,7 @@ def show_top20_movies(movies, index_small_python):
 
 show_top20_movies(movies, index_small_python)
 
-# Task 4: Tạo ma trận ratings hợp lệ
+# Task 4: Creating the standard ratings' matrix:
 users_movies_sort = data['users_movies_sort']
 
 def create_ratings_matrix(users_movies_sort):
