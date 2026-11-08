@@ -8,10 +8,10 @@ data = loadmat('users_movies.mat')
 index_small = data['index_small'].flatten()
 index_small_python = index_small - 1
 
-print("Index gốc:")
+print("Original index:")
 print(index_small)
 
-print("\nIndex sau khi chuyển sang Python:")
+print("\nIndex after converting into Python:")
 print(index_small_python)
 
 # Task 3: Listing 20 most popular movies:
