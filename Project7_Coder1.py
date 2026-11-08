@@ -4,7 +4,7 @@ import numpy as np
 # Task 1: Uploading data from users_movies.mat:
 data = loadmat('users_movies.mat')
 
-# Task 2: Converting figures from MATLAB into Python:
+# Task 2: Converting index from MATLAB into Python:
 index_small = data['index_small'].flatten()
 index_small_python = index_small - 1
 
