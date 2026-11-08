@@ -18,7 +18,7 @@ print(index_small_python)
 movies = data['movies'].flatten()
 
 def show_top20_movies(movies, index_small_python):
-    print("TOP 20 MOST POPULAR MOVIES:\n")
+    print("Top 20 most popular movies:\n")
    
     for i, idx in enumerate(index_small_python):
         title = movies[idx][0] if isinstance(movies[idx], np.ndarray) else str(movies[idx])
