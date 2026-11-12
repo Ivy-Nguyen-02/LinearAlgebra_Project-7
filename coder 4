@@ -3,12 +3,13 @@ import seaborn as sns
 import numpy as np
 
 plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams['font.family'] = 'DejaVu Sans'
 
-#Histograms for distribution (Mean/ Median):
+# Plot 1: Histograms for distribution (Mean/ Median):
 
-def plot_of_distributions(eucl, pearson, save_path='distribution_plot.png'):
+def plot_of_distributions(eucl: np.ndarray, pearson: np.ndarray, save_path='distribution_plot.png'):
 
-    #Configurations of the plots:
+    'Plot distribution histograms for Euclidean distances and Pearson correlation coefficients.'
     fig, axes= plt.subplots(1, 2, figsize=(14,5))
 
     #Plot for Euclidean distance distribution:
@@ -32,11 +33,11 @@ def plot_of_distributions(eucl, pearson, save_path='distribution_plot.png'):
     plt.savefig(save_path, dpi=300)
     plt.show()
 
-#Scatter plots: Euclidean vs Pearson:
+# Plot 2: Scatter plots: Euclidean vs Pearson:
 
-def scatter_plot(eucl, pearson, save_name='scatter_plot.png'):
+def scatter_plot(eucl: np.ndarray, pearson: np.ndarray, save_name='scatter_plot.png'):
 
-    #Configurations for the plot:
+    'Scatter plot demonstrating the inverse relationship between Euclidean distance and Pearson correlation.'
     plt.figure(figsize=(7, 5))
     sns.scatterplot(x=eucl, y=pearson, alpha=0.6, color='purple')
     
@@ -49,16 +50,19 @@ def scatter_plot(eucl, pearson, save_name='scatter_plot.png'):
     plt.savefig(save_name, dpi=300)
     plt.show()
 
-#Bar charts for rating comparison (trial users vs closest users):
+#Plot 3: Bar plot for rating comparison (trial users vs closest users):
 
-def bar_chart(trial_user, closest_user, save_fig='bar_charts.png'):
+def plot_user_comparison(trial_user: np.ndarray, closest_user_ratings: np.ndarray, title_suffix: str = "Closest User", save_fig= 'plot_user_comparison.png'):
+    'Grouped bar plot comparing movie ratings between Trial User and the Closest User match.'
+
+
     n_movies = len(trial_user)
     indices = np.arange(n_movies)
     width = 0.35
 
     plt.figure(figsize=(12, 5))
     plt.bar(indices - width/2, trial_user, width, label='Trial User', color='#ff7f0e')
-    plt.bar(indices + width/2, closest_user, width, label='Closest User', color='#1f77b4')
+    plt.bar(indices + width/2, closest_dist_ratings, width, label='Closest User', color='#1f77b4')
 
     plt.xlabel('Movie Index (0 -> 19)')
     plt.ylabel('Rating (1 -> 5)')
@@ -70,7 +74,65 @@ def bar_chart(trial_user, closest_user, save_fig='bar_charts.png'):
     plt.tight_layout()
     plt.savefig(save_fig, dpi=300)
     plt.show()
+
+#------------------------------------------------------------------------------------------------------------------
+# EXECUTION AND INTEGRATION:
+if __name__ == "__main__":
+    from scipy.io import loadmat
+
+    # Note: Ensure compare_users from Coder 2 is defined or imported before running
     
+    # 1. Load and preprocess MATLAB dataset (Coder 1)
+    data = loadmat("users_movies.mat")
+    users_movies_sort = np.asarray(data["users_movies_sort"])
+    ratings = users_movies_sort[np.all(users_movies_sort != 0, axis=1)]
+    trial_user = data["trial_user"].flatten()
+
+    # 2. Run similarity metrics calculation (Coder 2)
+    # result = compare_users(ratings, trial_user)
+    
+    # Render Distribution and Scatter plots: 
+    print("Plotting distribution graphs and scatter plots")
+    plot_distributions(result["eucl"], result["pearson"])
+    plot_scatter_eucl_vs_pearson(result["eucl"], result["pearson"])
+
+    # Extract Closest User ratings and Compare:
+    idx_dist = result["closest_user_Dist"]
+    idx_pearson = result["closest_user_Pearson"]
+
+    # Extract 20-element rating vectors for the top matching users
+    closest_dist_ratings = ratings[idx_dist]
+    closest_pearson_ratings = ratings[idx_pearson]
+
+    # Evaluate if both similarity metrics converge on the same user index
+    if idx_dist == idx_pearson:
+        print(f"Both Euclidean and Pearson identified the same user (Row index: {idx_dist})!")
+        plot_user_comparison(
+            trial_user, 
+            closest_dist_ratings, 
+            title_suffix=f"Closest User (Row {idx_dist})",
+            save_fig="plot_user_comparison.png"
+        )
+    else:
+        print(f"Euclidean and Pearson identified different users:")
+        print(f"Euclidean Closest User: Row {idx_dist} (Min distance: {result['MinDist']:.4f})")
+        print(f"Pearson Closest User  : Row {idx_pearson} (Max correlation: {result['MaxPearson']:.4f})")
+
+        # Plot 1: Compare with Euclidean match
+        plot_user_comparison(
+            trial_user, 
+            closest_dist_ratings, 
+            title_suffix=f"Euclidean Match (Row {idx_dist})",
+            save_fig='plot_compare_euclidean.png'
+        )
+        
+        # Plot 2: Compare with Pearson match
+        plot_user_comparison(
+            trial_user, 
+            closest_pearson_ratings, 
+            title_suffix=f"Pearson Match (Row {idx_pearson})",
+            save_name='plot_compare_pearson.png'
+        )
 
 
     
