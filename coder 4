@@ -1,28 +1,75 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
-#Sketching the plots by using Matplotlib & Seaborn:
+import numpy as np
+
+plt.style.use('seaborn-v0_8-whitegrid')
+
+#Histograms for distribution (Mean/ Median):
+
 def plot_of_distributions(eucl, pearson, save_path='distribution_plot.png'):
 
     #Configurations of the plots:
-    fig, axes= plt.subplots(1, 2, figsize=(12,4.5))
+    fig, axes= plt.subplots(1, 2, figsize=(14,5))
 
     #Plot for Euclidean distance distribution:
-    sns.histplot(eucl, kde= True, ax = axes[0], color= 'red', bins=20)
-    axes[0].set_title('Euclidean distance distribution')
+    sns.histplot(eucl, kde=True, ax=axes[0], color='#1f77b4', bins=20)
+    mean_eucl = np.mean(eucl)
+    axes[0].axvline(mean_eucl, color='red', linestyle='--', linewidth=1.5, label=f'Mean: {mean_eucl:.2f}')
+    axes[0].set_title('Euclidean Distance Distribution', fontsize=12, fontweight='bold')
     axes[0].set_xlabel('Distance')
     axes[0].set_ylabel('Frequency')
+    axes[0].legend()
 
-    #Plot for Pearson correlation distribution
-    sns.histplot(pearson, kde= True, ax= axes[1], color= 'blue', bins=20)
-    axes[1].set_title('Pearson correlation distribution')
-    axes[1].set_xlabel('Correlation coefficient')
+    #Plot for Pearson correlation distribution:
+    sns.histplot(pearson, kde=True, ax=axes[1], color='#2ca02c', bins=20)
+    mean_pearson = np.mean(pearson)
+    axes[1].axvline(mean_pearson, color='red', linestyle='--', linewidth=1.5, label=f'Mean: {mean_pearson:.2f}')
+    axes[1].set_title('Pearson Correlation Distribution', fontsize=12, fontweight='bold')
+    axes[1].set_xlabel('Correlation Coefficient (r)')
     axes[1].set_ylabel('Frequency')
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
     plt.show()
 
-plot_of_distributions(eucl, pearson)
+#Scatter plots: Euclidean vs Pearson:
+
+def scatter_plot(eucl, pearson, save_name='scatter_plot.png'):
+
+    #Configurations for the plot:
+    plt.figure(figsize=(7, 5))
+    sns.scatterplot(x=eucl, y=pearson, alpha=0.6, color='purple')
+    
+    plt.title('Euclidean Distance vs. Pearson Correlation', fontsize=12, fontweight='bold')
+    plt.xlabel('Euclidean Distance')
+    plt.ylabel('Pearson Correlation')
+    plt.axhline(0, color='gray', linestyle=':', linewidth=1)
+    
+    plt.tight_layout()
+    plt.savefig(save_name, dpi=300)
+    plt.show()
+
+#Bar charts for rating comparison (trial users vs closest users):
+
+def bar_chart(trial_user, closest_user, save_fig='bar_charts.png'):
+    n_movies = len(trial_user)
+    indices = np.arange(n_movies)
+    width = 0.35
+
+    plt.figure(figsize=(12, 5))
+    plt.bar(indices - width/2, trial_user, width, label='Trial User', color='#ff7f0e')
+    plt.bar(indices + width/2, closest_user, width, label='Closest User', color='#1f77b4')
+
+    plt.xlabel('Movie Index (0 -> 19)')
+    plt.ylabel('Rating (1 -> 5)')
+    plt.title('Rating Comparison: Trial User vs Closest User', fontsize=12, fontweight='bold')
+    plt.xticks(indices)
+    plt.legend()
+    plt.ylim(0, 6)
+    
+    plt.tight_layout()
+    plt.savefig(save_fig, dpi=300)
+    plt.show()
     
 
 
